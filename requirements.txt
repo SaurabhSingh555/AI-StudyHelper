@@ -2,4 +2,5 @@
 gunicorn
 langchain
 openai
-pip install langchain_community
+langchain
+langchain_community
