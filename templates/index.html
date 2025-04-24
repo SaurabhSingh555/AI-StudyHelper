@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyGenius AI | Smart Exam Preparation</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+      --warning: #f72585;
+      --info: #560bad;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      color: var(--success);
+    }
+    
+    .tagline {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .main-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--secondary);
+      position: relative;
+    }
+    
+    .main-title:after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--warning);
+      margin: 10px auto;
+      border-radius: 2px;
+    }
+    
+    .section {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-5px);
+    }
+    
+    .section-title {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title i {
+      margin-right: 10px;
+      font-size: 1.8rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      background: linear-gradient(to right, var(--secondary), var(--primary));
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .result-container {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border-left: 4px solid var(--accent);
+      overflow-x: auto;
+    }
+    
+    pre {
+      white-space: pre-wrap;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+    }
+    
+    .question-block {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border-left: 3px solid var(--info);
+    }
+    
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .options {
+      margin-left: 1rem;
+    }
+    
+    .option {
+      display: block;
+      margin-bottom: 0.5rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .option:hover {
+      background: #f1f3f5;
+    }
+    
+    .option input {
+      margin-right: 10px;
+    }
+    
+    .score-container {
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    
+    .score-title {
+      font-size: 1.8rem;
+      color: var(--info);
+      margin-bottom: 1rem;
+    }
+    
+    .score-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background: #e9ecef;
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, var(--success), #4cc9f0);
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+    
+    .feedback-item {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 3px solid;
+    }
+    
+    .correct {
+      border-left-color: var(--success);
+    }
+    
+    .incorrect {
+      border-left-color: var(--warning);
+    }
+    
+    .feedback-question {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .feedback-answer {
+      display: flex;
+      margin-bottom: 0.3rem;
+    }
+    
+    .feedback-label {
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logo {
+        margin-bottom: 1rem;
+      }
+    }
+    
+    /* Loading animation */
+    .loader {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Highlight boxes */
+    .highlight-box {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--warning);
+    }
+    
+    .highlight-title {
+      color: var(--warning);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-content">
+      <div>
+        <div class="logo">
+          <i class="fas fa-brain"></i>
+          <span>StudyGenius AI</span>
+        </div>
+        <div class="tagline">Your personal AI-powered exam preparation assistant</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="main-title">Smart Exam Preparation Platform</h1>
+    
+    <div class="grid">
+      <div class="section">
+        <h2 class="section-title">
+          <i class="fas fa-robot"></i>
+          AI Learning Assistant
+        </h2>
+        
+        <div class="form-group">
+          <label for="exam">Select Exam</label>
+          <select id="exam" class="form-control">
+            <option value="JEE">JEE (Engineering)</option>
+            <option value="NEET">NEET (Medical)</option>
+            <option value="CBSE">CBSE Board</option>
+            <option value="UPSC">UPSC Civil Services</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="difficulty">Difficulty Level</label>
+          <select id="difficulty" class="form-control">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate" selected>Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="topic">Enter Topic to Learn</label>
+          <input type="text" id="topic" placeholder="E.g., Thermodynamics, Cell Biology, Indian Constitution..." class="form-control">
+        </div>
+        
+        <button class="btn" onclick="generateChat()">
+          <i class="fas fa-lightbulb"></i> Generate Learning Material
+        </button>
+        
+        <div id="chatbotResult" class="result-container" style="display: none;">
+          <div id="loader" style="display: none;">
+            <div class="loader"></div> Generating content...
+          </div>
+          <pre id="resultContent"></pre>
+        </div>
+      </div>
+      
+      <div class="section">
+        <h2 class="section-title">
+          <i class="fas fa-graduation-cap"></i>
+          Self-Assessment Test
+        </h2>
+        
+        <div class="highlight-box">
+          <div class="highlight-title">Test Your Knowledge</div>
+          <p>Generate a customized test on any topic to evaluate your understanding and identify areas for improvement.</p>
+        </div>
+        
+        <div class="form-group">
+          <label for="testTopic">Enter Topic for Test</label>
+          <input type="text" id="testTopic" placeholder="E.g., Organic Chemistry, Human Physiology..." class="form-control">
+        </div>
+        
+        <button class="btn" onclick="generateTest()">
+          <i class="fas fa-file-alt"></i> Generate Test
+        </button>
+        
+        <form id="testForm"></form>
+        
+        <button id="submitBtn" class="btn" onclick="submitTest()" style="display: none; margin-top: 1.5rem;">
+          <i class="fas fa-check-circle"></i> Submit Test
+        </button>
+        
+        <div id="scoreResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function generateChat() {
+      const topic = $("#topic").val();
+      if (!topic) {
+        alert("Please enter a topic first!");
+        return;
+      }
+      
+      $("#chatbotResult").show();
+      $("#resultContent").hide();
+      $("#loader").show();
+      
+      $.post("/ask", {
+        topic: $("#topic").val(),
+        exam: $("#exam").val(),
+        difficulty: $("#difficulty").val()
+      }, function(data) {
+        $("#loader").hide();
+        $("#resultContent").text(data.response).show();
+        
+        // Scroll to results
+        $('html, body').animate({
+          scrollTop: $("#chatbotResult").offset().top - 100
+        }, 500);
+      }).fail(function() {
+        $("#loader").html("<i class='fas fa-exclamation-triangle'></i> Error generating content. Please try again.");
+      });
+    }
+
+    let globalQuestions = [];
+
+    function generateTest() {
+      const topic = $("#testTopic").val();
+      if (!topic) {
+        alert("Please enter a topic first!");
+        return;
+      }
+      
+      $("#testForm").html("<div style='text-align: center; padding: 2rem;'><div class='loader'></div> Generating your test questions...</div>");
+      
+      $.post("/generate_test", { topic: $("#testTopic").val() }, function(data) {
+        globalQuestions = data.questions;
+        let html = '';
+        
+        if (data.questions && data.questions.length > 0) {
+          data.questions.forEach((q, i) => {
+            html += `<div class="question-block">
+              <div class="question-text">Q${i+1}: ${q.question}</div>
+              <div class="options">`;
+              
+            for (const key in q.options) {
+              html += `<label class="option">
+                <input type="radio" name="q${i}" value="${key}"> 
+                <strong>${key})</strong> ${q.options[key]}
+              </label>`;
+            }
+            
+            html += `</div></div>`;
+          });
+          
+          $("#submitBtn").show();
+        } else {
+          html = "<div class='highlight-box'><i class='fas fa-exclamation-circle'></i> Could not generate questions. Please try a different topic.</div>";
+        }
+        
+        $("#testForm").html(html);
+        
+        // Scroll to test
+        $('html, body').animate({
+          scrollTop: $("#testForm").offset().top - 100
+        }, 500);
+      }).fail(function() {
+        $("#testForm").html("<div class='highlight-box'><i class='fas fa-exclamation-circle'></i> Error generating test. Please try again.</div>");
+      });
+    }
+
+    function submitTest() {
+      let answers = {};
+      let unanswered = 0;
+      
+      globalQuestions.forEach((_, i) => {
+        const answer = $(`input[name="q${i}"]:checked`).val();
+        answers[i] = answer || "";
+        if (!answer) unanswered++;
+      });
+      
+      if (unanswered > 0 && !confirm(`You have ${unanswered} unanswered questions. Submit anyway?`)) {
+        return;
+      }
+      
+      $("#submitBtn").html("<div class='loader'></div> Evaluating...").prop("disabled", true);
+      
+      $.ajax({
+        url: "/submit_answers",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ answers: answers, questions: globalQuestions }),
+        success: function(res) {
+          const percentage = Math.round((res.score / res.total) * 100);
+          let feedbackHtml = `
+            <div class="score-container">
+              <div class="score-title">Test Results</div>
+              <div class="score-value">${res.score}/${res.total}</div>
+              <div class="progress-bar">
+                <div class="progress" style="width: ${percentage}%"></div>
+              </div>
+              <div style="font-size: 1.2rem; margin-bottom: 1.5rem; color: ${percentage >= 70 ? 'var(--success)' : percentage >= 40 ? 'var(--accent)' : 'var(--warning)'}">
+                ${percentage}% ${percentage >= 70 ? '🎉 Excellent!' : percentage >= 40 ? '👍 Good effort!' : '📚 Keep practicing!'}
+              </div>
+            </div>
+            <h3 style="margin: 1.5rem 0; color: var(--secondary)">Detailed Feedback:</h3>
+          `;
+          
+          res.feedback.forEach((f, i) => {
+            feedbackHtml += `
+              <div class="feedback-item ${f.is_correct ? 'correct' : 'incorrect'}">
+                <div class="feedback-question">Q${i+1}: ${f.question}</div>
+                <div class="feedback-answer">
+                  <span class="feedback-label">✅ Correct:</span>
+                  <span>${f.correct_answer}</span>
+                </div>
+                <div class="feedback-answer">
+                  <span class="feedback-label">${f.is_correct ? '✔️' : '❌'} Your answer:</span>
+                  <span>${f.your_answer || 'Not answered'}</span>
+                </div>
+              </div>
+            `;
+          });
+          
+          $("#scoreResult").html(feedbackHtml);
+          $("#submitBtn").html("<i class='fas fa-check-circle'></i> Submit Test").prop("disabled", false);
+          
+          // Scroll to results
+          $('html, body').animate({
+            scrollTop: $("#scoreResult").offset().top - 100
+          }, 500);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
