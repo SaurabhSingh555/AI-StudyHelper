@@ -13,8 +13,9 @@ os.environ["OPENAI_API_BASE"] = "https://openrouter.ai/api/v1"
 llm = ChatOpenAI(
     temperature=0.7,
     model_name="gpt-3.5-turbo",
-    openai_api_base=os.environ["OPENAI_API_BASE"],
-    openai_api_key=os.environ["OPENAI_API_KEY"]
+   api_key = os.getenv("OPENAI_API_KEY")
+api_base = os.getenv("OPENAI_API_BASE")
+
 )
 
 # Prompt for explanation + questions
