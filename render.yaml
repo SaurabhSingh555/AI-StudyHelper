@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ai-study-helper
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: OPENAI_API_KEY
+        value: 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
+      - key: OPENAI_API_BASE
+        value: https://openrouter.ai/api/v1
